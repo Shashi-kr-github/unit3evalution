@@ -14,13 +14,13 @@ const connect = () =>{
     })
 }
 
-const catgSchema = new mongoose.Schema(
+const catggSchema = new mongoose.Schema(
     {
    name : {
        type : String,
        required: true
-   }
-
+   } 
+  
    }, {
        versionKey: false
    }
@@ -40,7 +40,7 @@ const colorSchema = new mongoose.Schema(
    }
 )
 
-const Catogery = mongoose.model("color" ,colorSchema )
+const Color = mongoose.model("color" ,colorSchema )
 
 
 
@@ -50,11 +50,26 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    price:{
+        type: Number,
+        required: true
+    },
     catogery : [
         {
            type: mongoose.Schema.Types.ObjectId,
            ref: "catogery",
            required: true
+        }
+
+    ],
+    
+    color:[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "color",
+          required: true
+            
+
         }
     ]
 
