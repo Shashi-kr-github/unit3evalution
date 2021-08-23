@@ -7,14 +7,14 @@ const app = express();
 app.use(express.json());
 
 const connect = () =>{
-    return mongoose.connect("mongodb://127.0.0.1:27017/Ecomerce1" , {
+    return mongoose.connect("mongodb://127.0.0.1:27017/Ecomerce2" , {
         useNewUrlParser: true,
         useUnifiedTopology: true,
          useCreateIndex: true,
     })
 }
 
-const catggSchema = new mongoose.Schema(
+const catgSchema = new mongoose.Schema(
     {
    name : {
        type : String,
@@ -82,11 +82,26 @@ const productSchema = new mongoose.Schema({
 
 const Item = mongoose.model("item" , productSchema)
 
-const
+
 
 app.post("/items", async function (req,res){
-     const item = await Item.create(req.body);
-     return res.send(item);
+    let {product, price, catogery,color} = req.body
+    try{
+        let items_of_auther = await Items.find(
+            {
+                product: {
+                    price:{
+                        catogery:{
+                            colour: {
+
+                            }
+                        }
+                    }
+                }
+            }
+        ) 
+    }
+
 })
 
 app.get("/items", async function(req,res){
@@ -102,7 +117,7 @@ app.get("/items", async function(req,res){
 // })
 
 
-app.listen(12002, async () =>{
+app.listen(16002, async () =>{
      await connect();
     console.log("listen the port 3002");
 
