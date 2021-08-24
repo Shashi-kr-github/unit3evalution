@@ -7,12 +7,30 @@ const app = express();
 app.use(express.json());
 
 const connect = () =>{
-    return mongoose.connect("mongodb://127.0.0.1:27017/Ecomerce2" , {
+    return mongoose.connect("mongodb://127.0.0.1:27017/Ecomerce1" , {
         useNewUrlParser: true,
         useUnifiedTopology: true,
          useCreateIndex: true,
     })
 }
+
+const itemSchema = new mongoose.Schema({
+    product_c: String,
+    price: Number,
+    color_1: String,
+    color_2: String,
+    color_3: String,
+    men: Boolean,
+    Women: Boolean
+
+
+}, {
+    versionKey: false
+}
+
+)
+
+const Item = mongoose.model("item", itemSchema);
 
 const catgSchema = new mongoose.Schema(
     {
@@ -103,18 +121,33 @@ app.post("/items", async function (req,res){
     }
 
 })
+app.post("/items", async function(req,res){
+    const item = await Item.create(req.body);
 
-app.get("/items", async function(req,res){
-   
-    const items = await Item.find().lean().exec()
-    return res.send(items)
+    return res.send(user);
+})
+app.get("/items", async function (req, res) {
+  const items = await Item.find().lean().exec();
+  return res.send(items);
+});
+
+
+
+app.get("/items/:id/price", async function(req,res){
+    const item = await Item.findById(req.params.id).lean().exec();
+    res.send(item);
+})
+app.get("/items/:id/color_1", async function (req, res) {
+  const item = await Item.findById(req.params.id).lean().exec();
+  res.send(item);
+});
+
+app.delete("/items/:id", async function (req,res){
+    const item = await Item.findByIdAndDelete(req.params.id)
+    res.send(item);
 })
 
-// app.get("/items/:price", async function(req,res){
-//      console.log(req.params);
-//     const items = await Item.fi(req.prams.price).lean().exec();
-//     res.send(items)
-// })
+
 
 
 app.listen(16002, async () =>{
